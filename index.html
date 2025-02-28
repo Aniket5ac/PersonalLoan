@@ -97,8 +97,8 @@
                 return;
             }
             
-            const FLAT_FEE_RATE = 0.085;
-            const ANNUAL_INTEREST_RATE = 0.40;
+            const FLAT_FEE_RATE = 0.075;
+            const ANNUAL_INTEREST_RATE = 0.38;
             const MONTHLY_INTEREST_RATE = ANNUAL_INTEREST_RATE / 12;
             
             let totalLoanAmount = loanAmount * (1 + FLAT_FEE_RATE);
@@ -110,7 +110,7 @@
             document.getElementById("output").innerHTML = `
                 <strong>📌 Loan Summary:</strong><br>
                 💵 Loan Amount Received: ₹${loanAmount.toFixed(2)}<br>
-                🔹 Total Loan Amount (incl. 8.5% flat fee): ₹${totalLoanAmount.toFixed(2)}<br>
+                🔹 Total Loan Amount (incl. 7.5% flat fee): ₹${totalLoanAmount.toFixed(2)}<br>
                 🏦 Monthly EMI on Total Loan Amount: ₹${emi.toFixed(2)}<br>
                 💰 Total Repayment: ₹${totalRepayment.toFixed(2)}<br>
                 📈 Total Interest Paid: ₹${totalInterest.toFixed(2)}
