@@ -20,95 +20,93 @@
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 10px;
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
             text-align: center;
-            width: 400px;
-            z-index: 10;
+            width: 450px;
+            animation: fadeIn 1s ease-in-out;
         }
         h2 {
             color: #ff9500;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
+            font-size: 26px;
+            font-weight: 700;
         }
         input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 2px solid #ff9500;
+            font-size: 16px;
             background: rgba(255, 255, 255, 0.15);
             color: white;
-            border: 1px solid #ff9500;
             outline: none;
         }
         button {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
             background: linear-gradient(90deg, #ff9500, #ff5e00);
             color: white;
-            font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ff5e00, #ff9500);
+            transform: scale(1.05);
         }
         .result {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 18px;
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
         }
-        .moving-cash {
-            position: absolute;
-            width: 50px;
-            height: 25px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Indian_currency_%28cropped%29.jpg/640px-Indian_currency_%28cropped%29.jpg');
-            background-size: cover;
-            opacity: 0.7;
-            animation: floatCash 5s linear infinite;
-        }
-        @keyframes floatCash {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div id="cash-container"></div>
     <div class="container">
         <h2>💰 Personal Loan Calculator 💰</h2>
-        <input type="number" id="loanAmount" placeholder="Loan Amount (₹)">
-        <input type="number" id="loanTenure" placeholder="Loan Tenure (months)">
+        <label>Loan Amount (₹):</label>
+        <input type="number" id="loanAmount" placeholder="Enter amount" required>
+        <label>Loan Tenure (months):</label>
+        <input type="number" id="loanTenure" placeholder="Enter months" required>
         <button onclick="calculateLoan()">📊 Calculate EMI</button>
         <div id="output" class="result"></div>
     </div>
 
     <script>
-        function createCashEffect() {
-            const container = document.getElementById("cash-container");
-            for (let i = 0; i < 5; i++) {
-                let cash = document.createElement("div");
-                cash.classList.add("moving-cash");
-                cash.style.left = `${Math.random() * 100}vw`;
-                cash.style.animationDuration = `${3 + Math.random() * 3}s`;
-                container.appendChild(cash);
-                setTimeout(() => cash.remove(), 5000);
-            }
-        }
-        setInterval(createCashEffect, 2000);
-        
         function calculateLoan() {
             let loanAmount = parseFloat(document.getElementById("loanAmount").value);
             let tenure = parseInt(document.getElementById("loanTenure").value);
+            
             if (isNaN(loanAmount) || isNaN(tenure) || tenure <= 0) {
                 document.getElementById("output").innerHTML = "⚠️ Please enter valid values.";
                 return;
             }
+            
             const FLAT_FEE_RATE = 0.07;
             const ANNUAL_INTEREST_RATE = 0.36;
             const MONTHLY_INTEREST_RATE = ANNUAL_INTEREST_RATE / 12;
+            
             let totalLoanAmount = loanAmount * (1 + FLAT_FEE_RATE);
             let emi = (totalLoanAmount * MONTHLY_INTEREST_RATE * Math.pow(1 + MONTHLY_INTEREST_RATE, tenure)) /
                       (Math.pow(1 + MONTHLY_INTEREST_RATE, tenure) - 1);
             let totalRepayment = emi * tenure;
             let totalInterest = totalRepayment - totalLoanAmount;
+            
             document.getElementById("output").innerHTML = `
                 <strong>📌 Loan Summary:</strong><br>
                 💵 Loan Amount Received: ₹${loanAmount.toFixed(2)}<br>
